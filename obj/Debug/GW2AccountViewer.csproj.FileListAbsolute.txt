@@ -1,0 +1,14 @@
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.AccountView.resources
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.Form1.resources
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.Properties.Resources.resources
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.csproj.GenerateResource.Cache
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\GW2AccountViewer.exe.config
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\GW2AccountViewer.exe
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\GW2AccountViewer.pdb
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\Newtonsoft.Json.dll
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\nunit.framework.dll
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\Newtonsoft.Json.xml
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\bin\Debug\nunit.framework.xml
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.exe
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.pdb
+\\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.csprojResolveAssemblyReference.cache

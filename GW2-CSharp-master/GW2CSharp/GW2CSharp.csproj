@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A0276AF2-742D-4E20-B54D-28E51E7A3FD2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GW2CSharp</RootNamespace>
+    <AssemblyName>GW2CSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GW2CSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\GW2CSharp.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiException.cs" />
+    <Compile Include="Enums\Armor.cs" />
+    <Compile Include="Enums\DamageType.cs" />
+    <Compile Include="Enums\Discipline.cs" />
+    <Compile Include="Enums\GameMode.cs" />
+    <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\Profession.cs" />
+    <Compile Include="Enums\Race.cs" />
+    <Compile Include="Enums\Restriction.cs" />
+    <Compile Include="Enums\Weapon.cs" />
+    <Compile Include="Enums\Weight.cs" />
+    <Compile Include="GW2Api.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Enums\RequestedLanguage.cs" />
+    <Compile Include="Services\Enums\FileFormat.cs" />
+    <Compile Include="Services\RenderService.cs" />
+    <Compile Include="ApiBase.cs" />
+    <Compile Include="V1\V1Endpoint.cs" />
+    <Compile Include="V2\Authenticated\Pvp\Stats\Enums\Ladder.cs" />
+    <Compile Include="V2\Authenticated\Pvp\Stats\PvpStatistic.cs" />
+    <Compile Include="V2\Authenticated\Pvp\Stats\PvpStatisticWrapper.cs" />
+    <Compile Include="V2\Authenticated\Pvp\Stats\Statistic.cs" />
+    <Compile Include="V2\Authenticated\TokenInfo\Permission.cs" />
+    <Compile Include="V2\Authenticated\TokenInfo\TokenInfo.cs" />
+    <Compile Include="V2\Authenticated\TokenInfo\TokenInfoWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\ContinentWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Skins\Enums\SkinFlags.cs" />
+    <Compile Include="V2\Unauthenticated\Skins\Enums\SkinType.cs" />
+    <Compile Include="V2\Unauthenticated\Skins\Skin.cs" />
+    <Compile Include="V2\Unauthenticated\Skins\SkinDetail.cs" />
+    <Compile Include="V2\Unauthenticated\Skins\SkinWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Continent.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Coordinate.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Enums\PoiType.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Floor.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Map.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Objective.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Poi.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Rectangle.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Region.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\Sector.cs" />
+    <Compile Include="V2\Unauthenticated\Continents\SkillChallenge.cs" />
+    <Compile Include="V2\Unauthenticated\BuildWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Colors\Color.cs" />
+    <Compile Include="V2\Unauthenticated\Colors\ColorWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Colors\DyeMaterial.cs" />
+    <Compile Include="V2\Unauthenticated\Currencies\Currency.cs" />
+    <Compile Include="V2\Unauthenticated\Currencies\CurrencyWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Currencies\Enums\CurrencyType.cs" />
+    <Compile Include="V2\Unauthenticated\Files\RessourceFile.cs" />
+    <Compile Include="V2\Unauthenticated\Files\RessourceFileWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Quaggans\Quaggan.cs" />
+    <Compile Include="V2\Unauthenticated\Quaggans\QuagganWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Worlds\Enums\Language.cs" />
+    <Compile Include="V2\Unauthenticated\Worlds\Enums\Population.cs" />
+    <Compile Include="V2\Unauthenticated\Worlds\Enums\Region.cs" />
+    <Compile Include="V2\Unauthenticated\Worlds\World.cs" />
+    <Compile Include="V2\Unauthenticated\Worlds\WorldWrapper.cs" />
+    <Compile Include="V2\Unauthenticated\Commerce\Exchange\Gem.cs" />
+    <Compile Include="Entities\Money.cs" />
+    <Compile Include="V2\Unauthenticated\Commerce\Exchange\Coin.cs" />
+    <Compile Include="V2\Unauthenticated\Commerce\Exchange\ExchangeWrapper.cs" />
+    <Compile Include="V2\V2Endpoint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="V2\Authenticated\Account\Bank\" />
+    <Folder Include="V2\Authenticated\Account\Dyes\" />
+    <Folder Include="V2\Authenticated\Account\Materials\" />
+    <Folder Include="V2\Authenticated\Account\Skins\" />
+    <Folder Include="V2\Authenticated\Account\Wallet\" />
+    <Folder Include="V2\Authenticated\Characters\" />
+    <Folder Include="V2\Authenticated\Commerce\Transactions\" />
+    <Folder Include="V2\Authenticated\Pvp\Games\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
