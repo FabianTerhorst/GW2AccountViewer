@@ -329,13 +329,11 @@ namespace GW2AccountViewer
 
         public void refreshGuilds()
         {
-            if (mAccount != null && mAccount.Guilds != null && mAccount.Guilds.Count > 0)
+            if (mAccount != null && mAccount.Guilds != null)
             {
                 foreach (String guildId in mAccount.Guilds)
                 {
-
-
-                    //refreshGuild(guildId);
+                    refreshGuild(guildId);
                     //Console.WriteLine(guildId);
                 }
             }
@@ -371,8 +369,8 @@ namespace GW2AccountViewer
             mAccount = JsonConvert.DeserializeObject<Account>(responseFromServer);
             DataSetChangedEventArgs args = new DataSetChangedEventArgs();
             callDataChangeCallback(args);
-            refreshGuilds();
             save();
+            refreshGuilds();
         }
 
         void parseGuild(IAsyncResult result)

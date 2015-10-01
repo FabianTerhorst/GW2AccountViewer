@@ -59,10 +59,14 @@ namespace GW2AccountViewer
             {
                 accountName.Text = application.getAccount().Name;
 
-                foreach (String guildId in application.getAccount().Guilds)
+                /*foreach (String guildId in application.getAccount().Guilds)
                 {
                     guilds.Items.Add(guildId);
-                }
+                }*/
+            }
+            foreach (Guild guild in application.getGuilds())
+            {
+                guilds.Items.Add(guild.Name);
             }
         }
     }
