@@ -650,12 +650,17 @@ namespace GW2AccountViewer
 
         public ItemImage getItemImageByUrl(String url)
         {
-            foreach (ItemImage itemImage in mImages)
-            {
-                if (itemImage.url == url)
+            try {
+                foreach (ItemImage itemImage in mImages)
                 {
-                    return itemImage;
+                    if (itemImage.url == url)
+                    {
+                        return itemImage;
+                    }
                 }
+            }catch(Exception ex)
+            {
+
             }
             return null;
         }
