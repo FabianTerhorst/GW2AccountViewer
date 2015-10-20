@@ -383,10 +383,16 @@ namespace GW2AccountViewer
             reader.Close();
             response.Close();
             Guild currentGuild = JsonConvert.DeserializeObject<Guild>(responseFromServer);
-            foreach(Guild guild in mGuilds){
-                if(guild.Id.Equals(currentGuild.Id)){
-                    mGuilds.Remove(guild);
+            try {
+                foreach (Guild guild in mGuilds) {
+                    if (guild.Id.Equals(currentGuild.Id)) {
+                        mGuilds.Remove(guild);
+                    }
                 }
+            }catch(Exception ex)
+            {
+                Console.WriteLine("execption in check");
+                Console.WriteLine(ex.Message);
             }
             mGuilds.Add(currentGuild);
             DataSetChangedEventArgs args = new DataSetChangedEventArgs();
