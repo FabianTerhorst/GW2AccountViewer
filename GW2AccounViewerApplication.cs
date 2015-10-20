@@ -25,11 +25,8 @@ using System.Data.OleDb;
 
 namespace GW2AccountViewer
 {
-    public /*sealed*/ class GW2AccounViewerApplication
+    public class GW2AccounViewerApplication
     {
-
-        //protected HttpWebRequest charactersRequest,guildRequest,accountRequest;
-
         protected List<Character> mCharacters;
 
         protected List<Guild> mGuilds;
@@ -314,17 +311,17 @@ namespace GW2AccountViewer
 
         public void refreshCharacters()
         {
-            /*charactersRequest = */post("https://api.guildwars2.com/v2/characters?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseCharacters));
+            post("https://api.guildwars2.com/v2/characters?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseCharacters));
         }
 
         public void refreshGuild(String guildId)
         {
-            /*guildRequest = */post("https://api.guildwars2.com/v1/guild_details.json?guild_id=" + guildId, new AsyncCallback(parseGuild));
+            post("https://api.guildwars2.com/v1/guild_details.json?guild_id=" + guildId, new AsyncCallback(parseGuild));
         }
 
         public void refreshAccount()
         {
-            /*accountRequest = */post("https://api.guildwars2.com/v2/account?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccount));
+            post("https://api.guildwars2.com/v2/account?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccount));
         }
 
         public void refreshGuilds()
@@ -334,15 +331,12 @@ namespace GW2AccountViewer
                 foreach (String guildId in mAccount.Guilds)
                 {
                     refreshGuild(guildId);
-                    //Console.WriteLine(guildId);
                 }
             }
         }
 
         void parseCharacters(IAsyncResult result)
         {
-            //if (charactersRequest != null)
-            //{
                 WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
                 Stream dataStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataStream);
@@ -354,7 +348,6 @@ namespace GW2AccountViewer
                 DataSetChangedEventArgs args = new DataSetChangedEventArgs();
                 callDataChangeCallback(args);
                 save();
-            //}
         }
 
         void parseAccount(IAsyncResult result)
