@@ -153,7 +153,7 @@ namespace GW2AccountViewer
                     else
                     {
                         PictureBox picture = new PictureBox();
-                        picture.Location = new Point(300, 100 + count);
+                        picture.Location = new Point(300 + row, 100 + count);
                         picture.Size = new Size(64, 64);
                         picture.Text = equipment.Slot;
                         picture.Name = "ItemPicture" + count;
