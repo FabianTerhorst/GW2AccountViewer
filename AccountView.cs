@@ -20,6 +20,7 @@ namespace GW2AccountViewer
     {
 
         GW2AccounViewerApplication application;
+        Character selectedCharacter;
 
         public AccountView()
         {
@@ -46,7 +47,7 @@ namespace GW2AccountViewer
 
         public void buildUI()
         {
-            if (application.getCharacters().Count != 0)
+            if (application.getCharacters().Count != 0 && application.getCharacters().Count != accountCharacters.Items.Count)
             {
                 accountCharacters.Items.Clear();
             }
@@ -62,8 +63,12 @@ namespace GW2AccountViewer
             {
                 guilds.Items.Clear();
             }
-            foreach (Character character in application.getCharacters()){
-                accountCharacters.Items.Add(character.Name);
+            if (application.getCharacters().Count != accountCharacters.Items.Count)
+            {
+                foreach (Character character in application.getCharacters())
+                {
+                    accountCharacters.Items.Add(character.Name);
+                }
             }
             if (application.getAccount() != null)
             {
@@ -79,9 +84,16 @@ namespace GW2AccountViewer
                 Console.WriteLine("exception in buildUI");
                 Console.WriteLine(ex.Message);
             }
-            if (accountCharacters.Items.Count > 0)
+            if (accountCharacters.SelectedIndex < 0)
             {
-                accountCharacters.SetSelected(0, true);
+                if (accountCharacters.Items.Count > 0)
+                {
+                    accountCharacters.SetSelected(0, true);
+                }
+            }
+            if(selectedCharacter != null)
+            {
+                updateSelectedCharacter();
             }
         }
 
@@ -91,16 +103,17 @@ namespace GW2AccountViewer
             {
                 if (accountCharacters.SelectedIndex <= application.getCharacters().Count)
                 {
-                    updateSelectedCharacter(application.getCharacters()[accountCharacters.SelectedIndex]);
+                    selectedCharacter = application.getCharacters()[accountCharacters.SelectedIndex];
+                    updateSelectedCharacter();
                 }
             }
         }
 
-        private void updateSelectedCharacter(Character character)
+        private void updateSelectedCharacter()
         {
-            selectedCharacterName.Text = character.Name;
+            selectedCharacterName.Text = selectedCharacter.Name;
 
-            if(character.Equipment != null)
+            if(selectedCharacter.Equipment != null)
             {
                 foreach(Object label in this.Controls)
                 {
@@ -123,7 +136,7 @@ namespace GW2AccountViewer
                     }
                 }
                 int count = 0;
-                foreach (Equipment equipment in character.Equipment)
+                foreach (Equipment equipment in selectedCharacter.Equipment)
                 {
                     Label label = new Label();
                     label.Location = new Point(200, 100 + count);
@@ -155,7 +168,7 @@ namespace GW2AccountViewer
 
                         this.Controls.Add(picture);
                     }
-                    count += 170;
+                    count += 70;
                 }
             }
             
