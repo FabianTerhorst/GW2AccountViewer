@@ -619,12 +619,17 @@ namespace GW2AccountViewer
         {
             if(mAccount != null)
             {
-                foreach(World world in mWorlds)
-                {
-                    if(world.Id == mAccount.World)
+                try {
+                    foreach (World world in mWorlds)
                     {
-                        return world;
+                        if (world.Id == mAccount.World)
+                        {
+                            return world;
+                        }
                     }
+                }catch(Exception ex)
+                {
+
                 }
             }
 
@@ -638,12 +643,17 @@ namespace GW2AccountViewer
 
         public Item getItemById(Int32 id)
         {
-            foreach(Item item in mItems)
-            {
-                if(item.Id == id)
+            try {
+                foreach (Item item in mItems)
                 {
-                    return item;
+                    if (item.Id == id)
+                    {
+                        return item;
+                    }
                 }
+            }catch(Exception ex)
+            {
+
             }
             return null;
         }
