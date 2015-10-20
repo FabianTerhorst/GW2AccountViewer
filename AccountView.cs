@@ -79,6 +79,10 @@ namespace GW2AccountViewer
                 Console.WriteLine("exception in buildUI");
                 Console.WriteLine(ex.Message);
             }
+            if (accountCharacters.Items.Count > 0)
+            {
+                accountCharacters.SetSelected(0, true);
+            }
         }
 
         private void character_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,6 +99,29 @@ namespace GW2AccountViewer
         private void updateSelectedCharacter(Character character)
         {
             selectedCharacterName.Text = character.Name;
+
+            if(character.Equipment != null)
+            {
+                foreach(Label label in this.Controls)
+                {
+                    if(label.Name.Equals("EquipmentLabel")){
+                        this.Controls.Remove(label);
+                    }
+                }
+                int count = 0;
+                foreach (Equipment equipment in character.Equipment)
+                {
+                    Label label = new Label();
+                    label.Location = new Point(200, 100 + count);
+                    label.Size = new Size(150, 20);
+                    label.Text = equipment.Slot;
+                    label.Name = "EquipmentLabel";
+                    this.Controls.Add(label);
+                    count += 20;
+                }
+            }
+            
+
         }
     }
 }
