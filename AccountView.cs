@@ -106,9 +106,19 @@ namespace GW2AccountViewer
                 {
                     if (label is Label)
                     {
-                        if (((Label)label).Name.Equals("EquipmentLabel"))
+                        if (((Label)label).Name.Contains("EquipmentLabel"))
                         {
                             this.Controls.Remove(((Label)label));
+                        }
+                    }
+                }
+                foreach (Object pictureBox in this.Controls)
+                {
+                    if (pictureBox is PictureBox)
+                    {
+                        if (((PictureBox)pictureBox).Name.Contains("ItemPicture"))
+                        {
+                            this.Controls.Remove(((PictureBox)pictureBox));
                         }
                     }
                 }
@@ -119,9 +129,33 @@ namespace GW2AccountViewer
                     label.Location = new Point(200, 100 + count);
                     label.Size = new Size(150, 20);
                     label.Text = equipment.Slot;
-                    label.Name = "EquipmentLabel";
+                    label.Name = "EquipmentLabel" + count;
                     this.Controls.Add(label);
-                    count += 20;
+                    Item item = application.getItemById(equipment.Id);
+                    if(item == null)
+                    {
+                        application.refreshItem(equipment.Id);
+                    }
+                    else
+                    {
+                        PictureBox picture = new PictureBox();
+                        picture.Location = new Point(300, 100 + count);
+                        picture.Size = new Size(150, 150);
+                        picture.Text = equipment.Slot;
+                        picture.Name = "ItemPicture" + count;
+                        ItemImage itemImage = application.getItemImageByUrl(item.Icon);
+                        if (itemImage != null)
+                        {
+                            picture.BackgroundImage = itemImage.image;
+                        }
+                        else
+                        {
+                            application.refreshItemImage(item.Icon);
+                        }
+
+                        this.Controls.Add(picture);
+                    }
+                    count += 170;
                 }
             }
             

@@ -21,7 +21,8 @@ using GW2CSharp.V2.Authenticated.TokenInfo;
 using GW2CSharp;
 using GW2CSharp.Enums;
 
-using System.Data.OleDb; 
+using System.Data.OleDb;
+using System.Drawing;
 
 namespace GW2AccountViewer
 {
@@ -34,6 +35,10 @@ namespace GW2AccountViewer
         protected List<World> mWorlds;
 
         protected Account mAccount;
+
+        protected List<Item> mItems;
+
+        protected List<ItemImage> mImages;
 
         public event EventHandler dataSetChanged;
 
@@ -75,6 +80,8 @@ namespace GW2AccountViewer
             mCharacters = new List<Character>();
             mGuilds = new List<Guild>();
             mWorlds = new List<World>();
+            mItems = new List<Item>();
+            mImages = new List<ItemImage>();
             load();
         }
 
@@ -374,6 +381,24 @@ namespace GW2AccountViewer
             return request;
         }
 
+        public Image GetImageFromURL(string url)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+            HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            Stream stream = httpWebReponse.GetResponseStream();
+            return Image.FromStream(stream);
+        }
+
+        public void refreshItem(Int32 id)
+        {
+            post("https://api.guildwars2.com/v2/items/" + id, new AsyncCallback(parseItem));
+        }
+
+        public void refreshItemImage(String url)
+        {
+            post(url, new AsyncCallback(addImage));
+        }
+
         public void refreshCharacters()
         {
             post("https://api.guildwars2.com/v2/characters?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseCharacters));
@@ -403,6 +428,20 @@ namespace GW2AccountViewer
                     refreshGuild(guildId);
                 }
             }
+        }
+
+        void addImage(IAsyncResult result)
+        {
+            WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
+            Stream dataStream = response.GetResponseStream();     
+            ItemImage itemImage = new ItemImage();
+            itemImage.image = Image.FromStream(dataStream);
+            itemImage.url = response.ResponseUri.ToString();
+            mImages.Add(itemImage);
+            response.Close();
+            DataSetChangedEventArgs args = new DataSetChangedEventArgs();
+            callDataChangeCallback(args);
+            save();
         }
 
         void parseCharacters(IAsyncResult result)
@@ -451,6 +490,21 @@ namespace GW2AccountViewer
             refreshGuilds();
         }
 
+        void parseItem(IAsyncResult result)
+        {
+            WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            string responseFromServer = reader.ReadToEnd();
+            Console.WriteLine(responseFromServer);
+            reader.Close();
+            response.Close();
+            mItems.Add(JsonConvert.DeserializeObject<Item>(responseFromServer));
+            DataSetChangedEventArgs args = new DataSetChangedEventArgs();
+            callDataChangeCallback(args);
+            save();
+        }
+
         void parseGuild(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -484,18 +538,32 @@ namespace GW2AccountViewer
             if (mCharacters != null && mCharacters.Count > 0)
             {
                 delete("Characters");
-                foreach (Character character in mCharacters)
+                try
                 {
-                    writeCharacter(character.Name, character.GuildId);
+                    foreach (Character character in mCharacters)
+                    {
+                        writeCharacter(character.Name, character.GuildId);
+                    }
+                }catch(Exception ex)
+                {
+
                 }
             }
             if (mGuilds != null && mGuilds.Count > 0)
             {
                 delete("Guilds");
-                foreach (Guild guild in mGuilds)
+                try
                 {
-                    writeGuild(guild.Name, guild.Id, guild.Tag);
+                    foreach (Guild guild in mGuilds)
+                    {
+                        writeGuild(guild.Name, guild.Id, guild.Tag);
+                    }
+
+                }catch(Exception ex)
+                {
+
                 }
+                
             }
             if (mAccount != null)
             {
@@ -506,9 +574,14 @@ namespace GW2AccountViewer
             if (mWorlds != null && mWorlds.Count > 0)
             {
                 delete("Worlds");
-                foreach (World world in mWorlds)
+                try {
+                    foreach (World world in mWorlds)
+                    {
+                        writeWorld(world.Id, world.Name, world.Population);
+                    }
+                }catch(Exception ex)
                 {
-                    writeWorld(world.Id, world.Name, world.Population);
+
                 }
             }
 
@@ -559,6 +632,30 @@ namespace GW2AccountViewer
         public Account getAccount()
         {
             return mAccount;
+        }
+
+        public Item getItemById(Int32 id)
+        {
+            foreach(Item item in mItems)
+            {
+                if(item.Id == id)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public ItemImage getItemImageByUrl(String url)
+        {
+            foreach (ItemImage itemImage in mImages)
+            {
+                if (itemImage.url == url)
+                {
+                    return itemImage;
+                }
+            }
+            return null;
         }
 
     }
