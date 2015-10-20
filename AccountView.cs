@@ -136,10 +136,11 @@ namespace GW2AccountViewer
                     }
                 }
                 int count = 0;
+                int row = 0;
                 foreach (Equipment equipment in selectedCharacter.Equipment)
                 {
                     Label label = new Label();
-                    label.Location = new Point(200, 100 + count);
+                    label.Location = new Point(200 + row, 100 + count);
                     label.Size = new Size(150, 20);
                     label.Text = equipment.Slot;
                     label.Name = "EquipmentLabel" + count;
@@ -168,7 +169,13 @@ namespace GW2AccountViewer
 
                         this.Controls.Add(picture);
                     }
-                    count += 70;
+                    row += 210;
+                    if (row > 630)
+                    {
+                        count += 70;
+                        row = 0;
+                    }
+                    
                 }
             }
             
