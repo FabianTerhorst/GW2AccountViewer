@@ -102,10 +102,14 @@ namespace GW2AccountViewer
 
             if(character.Equipment != null)
             {
-                foreach(Label label in this.Controls)
+                foreach(Object label in this.Controls)
                 {
-                    if(label.Name.Equals("EquipmentLabel")){
-                        this.Controls.Remove(label);
+                    if (label is Label)
+                    {
+                        if (((Label)label).Name.Equals("EquipmentLabel"))
+                        {
+                            this.Controls.Remove(((Label)label));
+                        }
                     }
                 }
                 int count = 0;
