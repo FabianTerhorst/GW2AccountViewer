@@ -150,9 +150,9 @@ namespace GW2AccountViewer
                     while (reader.Read())
                     {
                         World world = new World();
-                        world.Id = Int32.Parse(reader["id"].ToString());
-                        world.Name = reader["name"].ToString();
-                        world.Population = reader["population"].ToString();
+                        world.Id = Int32.Parse(reader["Id"].ToString());
+                        world.Name = reader["Name"].ToString();
+                        world.Population = reader["Population"].ToString();
                         mWorlds.Add(world);
 
                     }
@@ -264,7 +264,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("execption in write");
+                Console.WriteLine("exception in write");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -285,7 +285,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("execption in write");
+                Console.WriteLine("exception in write");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -306,7 +306,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("execption in write");
+                Console.WriteLine("exception in write");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -350,7 +350,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("execption in write");
+                Console.WriteLine("exception in write");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -469,7 +469,7 @@ namespace GW2AccountViewer
                 }
             }catch(Exception ex)
             {
-                Console.WriteLine("execption in check");
+                Console.WriteLine("exception in check");
                 Console.WriteLine(ex.Message);
             }
             mGuilds.Add(currentGuild);

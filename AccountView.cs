@@ -20,12 +20,10 @@ namespace GW2AccountViewer
     {
 
         GW2AccounViewerApplication application;
-        //private readonly SynchronizationContext synchronizationContext;
 
         public AccountView()
         {
             InitializeComponent();
-            //synchronizationContext = SynchronizationContext.Current;
             application = GW2AccounViewerApplication.Instance;
             application.dataSetChanged += dataSetChanged;
             application.refreshCharacters();
@@ -36,14 +34,21 @@ namespace GW2AccountViewer
 
         public void dataSetChanged(object sender, EventArgs e)
         {
-            base.Invoke((Action)delegate {buildUI(); }); 
+            try {
+                base.Invoke((Action)delegate { buildUI(); });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("exception in buildUI");
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void buildUI()
         {
             if (application.getCharacters().Count != 0)
             {
-                characters.Clear();
+                accountCharacters.Items.Clear();
             }
             if (application.getGuilds().Count != 0)
             {
@@ -58,25 +63,38 @@ namespace GW2AccountViewer
                 guilds.Items.Clear();
             }
             foreach (Character character in application.getCharacters()){
-                string[] arr = new string[4];
-                ListViewItem itm;
-                arr[0] = character.Name;
-                itm = new ListViewItem(arr);
-                characters.Items.Add(itm);
+                accountCharacters.Items.Add(character.Name);
             }
             if (application.getAccount() != null)
             {
                 accountName.Text = application.getAccount().Name;
-
-                /*foreach (String guildId in application.getAccount().Guilds)
+            }
+            try {
+                foreach (Guild guild in application.getGuilds())
                 {
-                    guilds.Items.Add(guildId);
-                }*/
-            }
-            foreach (Guild guild in application.getGuilds())
+                    guilds.Items.Add(guild.Name);
+                }
+            }catch(Exception ex)
             {
-                guilds.Items.Add(guild.Name);
+                Console.WriteLine("exception in buildUI");
+                Console.WriteLine(ex.Message);
             }
+        }
+
+        private void character_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (accountCharacters.SelectedIndex >= 0)
+            {
+                if (accountCharacters.SelectedIndex <= application.getCharacters().Count)
+                {
+                    updateSelectedCharacter(application.getCharacters()[accountCharacters.SelectedIndex]);
+                }
+            }
+        }
+
+        private void updateSelectedCharacter(Character character)
+        {
+            selectedCharacterName.Text = character.Name;
         }
     }
 }
