@@ -89,7 +89,13 @@ namespace GW2AccountViewer
 
         public void closeConnection()
         {
-            connection.Close();
+            try {
+                connection.Close();
+            }catch(Exception ex)
+            {
+                Console.WriteLine("Connection wird noch verwendet");
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void queryCharacters()
