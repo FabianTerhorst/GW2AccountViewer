@@ -30,6 +30,7 @@ namespace GW2AccountViewer
             application.dataSetChanged += dataSetChanged;
             application.refreshCharacters();
             application.refreshAccount();
+            application.refreshWorlds();
             buildUI();
         }
 
@@ -48,7 +49,15 @@ namespace GW2AccountViewer
             {
                 guilds.Items.Clear();
             }
-            foreach(Character character in application.getCharacters()){
+            World accountWorld = application.getAccountWorld();
+            if (accountWorld != null)
+            {
+                world_name.Text = accountWorld.Name;
+            }
+            {
+                guilds.Items.Clear();
+            }
+            foreach (Character character in application.getCharacters()){
                 string[] arr = new string[4];
                 ListViewItem itm;
                 arr[0] = character.Name;

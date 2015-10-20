@@ -21,7 +21,6 @@ namespace GW2AccountViewer
         [JsonProperty(PropertyName = "id")]
         public Int32 Id { get; set; }
 
-
         [JsonProperty(PropertyName = "guild")]
         public String GuildId { get; set; }
     

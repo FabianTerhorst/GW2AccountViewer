@@ -31,6 +31,8 @@ namespace GW2AccountViewer
 
         protected List<Guild> mGuilds;
 
+        protected List<World> mWorlds;
+
         protected Account mAccount;
 
         public event EventHandler dataSetChanged;
@@ -72,6 +74,7 @@ namespace GW2AccountViewer
         {
             mCharacters = new List<Character>();
             mGuilds = new List<Guild>();
+            mWorlds = new List<World>();
             load();
         }
 
@@ -116,6 +119,41 @@ namespace GW2AccountViewer
                         character.Name = reader.GetString(1);
                         character.GuildId = reader.GetString(2);
                         mCharacters.Add(character);
+
+                    }
+                    save();
+                }
+                else
+                {
+                    Console.WriteLine("No rows found.");
+                }
+                reader.Close();
+                command.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void queryWorlds()
+        {
+            OleDbCommand command;
+            try
+            {
+                command = new OleDbCommand("Select * From Worlds", connection);
+                OleDbDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    mWorlds.Clear();
+                    while (reader.Read())
+                    {
+                        World world = new World();
+                        world.Id = Int32.Parse(reader["id"].ToString());
+                        world.Name = reader["name"].ToString();
+                        world.Population = reader["population"].ToString();
+                        mWorlds.Add(world);
 
                     }
                     save();
@@ -231,6 +269,27 @@ namespace GW2AccountViewer
             }
         }
 
+        public void writeWorld(Int32 id, String name, String population)
+        {
+            try
+            {
+                var cmd = new OleDbCommand("INSERT INTO Worlds (Id,Name,Population) VALUES (@x,@y,@z)");
+                cmd.Parameters.AddRange(new[] {
+                new OleDbParameter("@x", id),
+                new OleDbParameter("@y", name),
+                new OleDbParameter("@z", population),
+                });
+                cmd.Connection = connection;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("execption in write");
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         public void writeGuild(String name, String guildId, string guildTag)
         {
             try
@@ -330,6 +389,11 @@ namespace GW2AccountViewer
             post("https://api.guildwars2.com/v2/account?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccount));
         }
 
+        public void refreshWorlds()
+        {
+            post("https://api.guildwars2.com/v2/worlds?ids=all", new AsyncCallback(parseWorlds));
+        }
+
         public void refreshGuilds()
         {
             if (mAccount != null && mAccount.Guilds != null)
@@ -354,6 +418,21 @@ namespace GW2AccountViewer
                 DataSetChangedEventArgs args = new DataSetChangedEventArgs();
                 callDataChangeCallback(args);
                 save();
+        }
+
+        void parseWorlds(IAsyncResult result)
+        {
+            WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            string responseFromServer = reader.ReadToEnd();
+            Console.WriteLine(responseFromServer);
+            reader.Close();
+            response.Close();
+            mWorlds = JsonConvert.DeserializeObject<List<World>>(responseFromServer);
+            DataSetChangedEventArgs args = new DataSetChangedEventArgs();
+            callDataChangeCallback(args);
+            save();
         }
 
         void parseAccount(IAsyncResult result)
@@ -423,7 +502,17 @@ namespace GW2AccountViewer
                 delete("Account");
                 writeAccount(mAccount.Name, mAccount.Guilds);
             }
-            closeConnection();
+
+            if (mWorlds != null && mWorlds.Count > 0)
+            {
+                delete("Worlds");
+                foreach (World world in mWorlds)
+                {
+                    writeWorld(world.Id, world.Name, world.Population);
+                }
+            }
+
+            //closeConnection();
         }
 
         public void load()
@@ -436,7 +525,9 @@ namespace GW2AccountViewer
 
             queryAccount();
 
-            closeConnection();
+            queryWorlds();
+
+            //closeConnection();
         }
 
         public List<Character> getCharacters()
@@ -447,6 +538,22 @@ namespace GW2AccountViewer
         public List<Guild> getGuilds()
         {
             return mGuilds;
+        }
+
+        public World getAccountWorld()
+        {
+            if(mAccount != null)
+            {
+                foreach(World world in mWorlds)
+                {
+                    if(world.Id == mAccount.World)
+                    {
+                        return world;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public Account getAccount()

@@ -30,7 +30,7 @@
         {
             this.characters = new System.Windows.Forms.ListView();
             this.accountName = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.world_name = new System.Windows.Forms.Label();
             this.guilds = new System.Windows.Forms.ListBox();
             this.wallet = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
@@ -52,14 +52,14 @@
             this.accountName.TabIndex = 3;
             this.accountName.Text = "label1";
             // 
-            // label2
+            // world_name
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
+            this.world_name.AutoSize = true;
+            this.world_name.Location = new System.Drawing.Point(13, 30);
+            this.world_name.Name = "world_name";
+            this.world_name.Size = new System.Drawing.Size(35, 13);
+            this.world_name.TabIndex = 4;
+            this.world_name.Text = "label2";
             // 
             // guilds
             // 
@@ -84,7 +84,7 @@
             this.ClientSize = new System.Drawing.Size(758, 405);
             this.Controls.Add(this.wallet);
             this.Controls.Add(this.guilds);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.world_name);
             this.Controls.Add(this.accountName);
             this.Controls.Add(this.characters);
             this.Name = "AccountView";
@@ -98,7 +98,7 @@
 
         private System.Windows.Forms.ListView characters;
         private System.Windows.Forms.Label accountName;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label world_name;
         private System.Windows.Forms.ListBox guilds;
         private System.Windows.Forms.ListBox wallet;
     }

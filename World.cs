@@ -7,22 +7,21 @@ using Newtonsoft.Json;
 
 namespace GW2AccountViewer
 {
-    public class Account
+    public class World
     {
-
-        public Account()
+        public World()
         {
 
         }
 
+        [JsonProperty(PropertyName = "id")]
+        public Int32 Id { get; set; }
+
         [JsonProperty(PropertyName = "name")]
         public String Name { get; set; }
 
-        [JsonProperty(PropertyName = "world")]
-        public Int32 World { get; set; }
-
-        [JsonProperty(PropertyName = "guilds")]
-        public List<String> Guilds { get; set; }
-
+        [JsonProperty(PropertyName = "population")]
+        public String Population { get; set; }
+        
     }
 }

@@ -12,3 +12,15 @@
 \\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.exe
 \\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.pdb
 \\psf\home\documents\visual studio 2013\Projects\GW2AccountViewer\GW2AccountViewer\obj\Debug\GW2AccountViewer.csprojResolveAssemblyReference.cache
+C:\Users\fabia\Source\Repos\GW2AccountViewer\bin\Debug\GW2AccountViewer.exe.config
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.exe
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.pdb
+C:\Users\fabia\Source\Repos\GW2AccountViewer\bin\Debug\GW2AccountViewer.exe
+C:\Users\fabia\Source\Repos\GW2AccountViewer\bin\Debug\GW2AccountViewer.pdb
+C:\Users\fabia\Source\Repos\GW2AccountViewer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\fabia\Source\Repos\GW2AccountViewer\bin\Debug\nunit.framework.xml
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.csprojResolveAssemblyReference.cache
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.AccountView.resources
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.Form1.resources
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.Properties.Resources.resources
+C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.csproj.GenerateResource.Cache
