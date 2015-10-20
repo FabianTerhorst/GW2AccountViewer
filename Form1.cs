@@ -28,7 +28,7 @@ namespace GW2AccountViewer
             application.saveApiKey(textBox1.Text);
             AccountView accountView = new AccountView();
             accountView.Show();
+            this.Hide();
         }
-
     }
 }
