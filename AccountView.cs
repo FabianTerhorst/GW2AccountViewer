@@ -140,7 +140,7 @@ namespace GW2AccountViewer
                     {
                         PictureBox picture = new PictureBox();
                         picture.Location = new Point(300, 100 + count);
-                        picture.Size = new Size(150, 150);
+                        picture.Size = new Size(64, 64);
                         picture.Text = equipment.Slot;
                         picture.Name = "ItemPicture" + count;
                         ItemImage itemImage = application.getItemImageByUrl(item.Icon);

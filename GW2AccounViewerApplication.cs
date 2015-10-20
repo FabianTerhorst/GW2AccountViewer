@@ -77,6 +77,7 @@ namespace GW2AccountViewer
 
         public GW2AccounViewerApplication()
         {
+            openConnection();
             mCharacters = new List<Character>();
             mGuilds = new List<Guild>();
             mWorlds = new List<World>();
@@ -93,6 +94,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
+                Console.WriteLine("exception in connection create");
                 Console.WriteLine(ex.Message);
             }
         }
@@ -357,7 +359,7 @@ namespace GW2AccountViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("exception in write");
+                Console.WriteLine("exception in delete");
                 Console.WriteLine(ex.Message);
             }
         }
