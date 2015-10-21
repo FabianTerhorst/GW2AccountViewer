@@ -73,7 +73,7 @@
             // accountCharacters
             // 
             this.accountCharacters.FormattingEnabled = true;
-            this.accountCharacters.Location = new System.Drawing.Point(626, 8);
+            this.accountCharacters.Location = new System.Drawing.Point(1037, 8);
             this.accountCharacters.Name = "accountCharacters";
             this.accountCharacters.Size = new System.Drawing.Size(120, 381);
             this.accountCharacters.TabIndex = 7;
@@ -92,7 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(758, 405);
+            this.ClientSize = new System.Drawing.Size(1169, 405);
             this.Controls.Add(this.selectedCharacterName);
             this.Controls.Add(this.accountCharacters);
             this.Controls.Add(this.wallet);

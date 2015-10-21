@@ -104,18 +104,19 @@ namespace GW2AccountViewer
                 if (accountCharacters.SelectedIndex <= application.getCharacters().Count)
                 {
                     selectedCharacter = application.getCharacters()[accountCharacters.SelectedIndex];
-                    updateSelectedCharacter();
+                    selectCharacter();
                 }
             }
         }
 
-        private void updateSelectedCharacter()
+
+        private void selectCharacter()
         {
             selectedCharacterName.Text = selectedCharacter.Name;
 
-            if(selectedCharacter.Equipment != null)
+            if (selectedCharacter.Equipment != null)
             {
-                foreach(Object label in this.Controls)
+                foreach (Object label in this.Controls)
                 {
                     if (label is Label)
                     {
@@ -129,9 +130,10 @@ namespace GW2AccountViewer
                 {
                     if (pictureBox is PictureBox)
                     {
-                        if (((PictureBox)pictureBox).Name.Contains("ItemPicture"))
+                        PictureBox image = (PictureBox)pictureBox;
+                        if (image.Name.Contains("ItemPicture"))
                         {
-                            this.Controls.Remove(((PictureBox)pictureBox));
+                            this.Controls.Remove(image);
                         }
                     }
                 }
@@ -143,43 +145,57 @@ namespace GW2AccountViewer
                     label.Location = new Point(200 + row, 100 + count);
                     label.Size = new Size(150, 20);
                     label.Text = equipment.Slot;
-                    label.Name = "EquipmentLabel" + count;
+                    label.Name = "EquipmentLabel" + equipment.Id;
                     this.Controls.Add(label);
-                    Item item = application.getItemById(equipment.Id);
-                    if(item == null)
-                    {
-                        application.refreshItem(equipment.Id);
-                    }
-                    else
-                    {
-                        PictureBox picture = new PictureBox();
-                        picture.Location = new Point(300 + row, 100 + count);
-                        picture.Size = new Size(64, 64);
-                        picture.Text = equipment.Slot;
-                        picture.Name = "ItemPicture" + count;
-                        ItemImage itemImage = application.getItemImageByUrl(item.Icon);
-                        if (itemImage != null)
-                        {
-                            picture.BackgroundImage = itemImage.image;
-                        }
-                        else
-                        {
-                            application.refreshItemImage(item.Icon);
-                        }
+                  
+                    PictureBox picture = new PictureBox();
+                    picture.Location = new Point(300 + row, 100 + count);
+                    picture.Size = new Size(64, 64);
+                    picture.Text = equipment.Slot;
+                    picture.Name = "ItemPicture" + equipment.Id;
+                    this.Controls.Add(picture);
 
-                        this.Controls.Add(picture);
-                    }
                     row += 210;
                     if (row > 630)
                     {
                         count += 70;
                         row = 0;
                     }
-                    
+
                 }
             }
-            
 
+
+        }
+
+        private void updateSelectedCharacter()
+        {
+            foreach (Object pictureBox in this.Controls)
+            {
+                if (pictureBox is PictureBox)
+                {
+                   PictureBox image = (PictureBox)pictureBox;
+                   Int32 itemId = Int32.Parse(image.Name.ToString().Replace("ItemPicture", ""));
+                   Item item = application.getItemById(itemId);
+                   if (item != null)
+                   {
+                       ItemImage itemImage = application.getItemImageByUrl(item.Icon);
+                       if (image.BackgroundImage == null)
+                       {
+                            if (itemImage != null)
+                            {
+                                image.BackgroundImage = itemImage.image;
+                            }else
+                            {
+                                application.refreshItemImage(item.Icon);
+                            }
+                       }
+                    }else
+                    {
+                        application.refreshItem(itemId);
+                    }
+                }
+            }
         }
     }
 }
