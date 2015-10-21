@@ -109,7 +109,6 @@ namespace GW2AccountViewer
             }
         }
 
-
         private void selectCharacter()
         {
             selectedCharacterName.Text = selectedCharacter.Name;
@@ -126,6 +125,7 @@ namespace GW2AccountViewer
                         }
                     }
                 }
+
                 foreach (Object pictureBox in this.Controls)
                 {
                     if (pictureBox is PictureBox)
@@ -137,8 +137,10 @@ namespace GW2AccountViewer
                         }
                     }
                 }
+
                 int count = 0;
                 int row = 0;
+
                 foreach (Equipment equipment in selectedCharacter.Equipment)
                 {
                     Label label = new Label();
@@ -161,11 +163,8 @@ namespace GW2AccountViewer
                         count += 70;
                         row = 0;
                     }
-
                 }
             }
-
-
         }
 
         private void updateSelectedCharacter()

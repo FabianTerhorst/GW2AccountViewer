@@ -40,6 +40,10 @@ namespace GW2AccountViewer
 
         protected List<ItemImage> mImages;
 
+        protected List<Int32> mRefreshingItems;
+
+        protected List<String> mRefreshingImages;
+
         public event EventHandler dataSetChanged;
 
         protected OleDbConnection connection;
@@ -83,6 +87,8 @@ namespace GW2AccountViewer
             mWorlds = new List<World>();
             mItems = new List<Item>();
             mImages = new List<ItemImage>();
+            mRefreshingImages = new List<String>();
+            mRefreshingItems = new List<Int32>();
             load();
         }
 
@@ -393,12 +399,26 @@ namespace GW2AccountViewer
 
         public void refreshItem(Int32 id)
         {
-            post("https://api.guildwars2.com/v2/items/" + id, new AsyncCallback(parseItem));
+            if (!mRefreshingItems.Contains(id))
+            {
+                mRefreshingItems.Add(id);
+                post("https://api.guildwars2.com/v2/items/" + id, new AsyncCallback(parseItem));
+            }else
+            {
+                Console.WriteLine("item refresh is in progress");
+            }
         }
 
         public void refreshItemImage(String url)
         {
-            post(url, new AsyncCallback(addImage));
+            if (!mRefreshingImages.Contains(url))
+            {
+                mRefreshingImages.Add(url);
+                post(url, new AsyncCallback(addImage));
+            }else
+            {
+                Console.WriteLine("image refresh is in progress");
+            }
         }
 
         public void refreshCharacters()
@@ -438,8 +458,17 @@ namespace GW2AccountViewer
             Stream dataStream = response.GetResponseStream();     
             ItemImage itemImage = new ItemImage();
             itemImage.image = Image.FromStream(dataStream);
-            itemImage.url = response.ResponseUri.ToString();
+            String responseUrl = response.ResponseUri.ToString();
+            itemImage.url = responseUrl;
             mImages.Add(itemImage);
+            foreach (String url in mRefreshingImages)
+            {
+                if (url == responseUrl)
+                {
+                    mRefreshingImages.Remove(url);
+                    break;
+                }
+            }
             response.Close();
             DataSetChangedEventArgs args = new DataSetChangedEventArgs();
             callDataChangeCallback(args);
@@ -501,7 +530,16 @@ namespace GW2AccountViewer
             Console.WriteLine(responseFromServer);
             reader.Close();
             response.Close();
-            mItems.Add(JsonConvert.DeserializeObject<Item>(responseFromServer));
+            Item item = JsonConvert.DeserializeObject<Item>(responseFromServer);
+            mItems.Add(item);
+            foreach (Int32 itemId in mRefreshingItems)
+            {
+                if (itemId == item.Id)
+                {
+                    mRefreshingItems.Remove(itemId);
+                    break;
+                }
+            }
             DataSetChangedEventArgs args = new DataSetChangedEventArgs();
             callDataChangeCallback(args);
             save();
