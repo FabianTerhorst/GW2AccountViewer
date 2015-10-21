@@ -105,6 +105,7 @@ namespace GW2AccountViewer
                 {
                     selectedCharacter = application.getCharacters()[accountCharacters.SelectedIndex];
                     selectCharacter();
+                    updateSelectedCharacter();
                 }
             }
         }

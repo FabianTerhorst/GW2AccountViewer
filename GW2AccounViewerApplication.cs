@@ -28,28 +28,41 @@ namespace GW2AccountViewer
 {
     public class GW2AccounViewerApplication
     {
+
+        //charactere
         protected List<Character> mCharacters;
 
+        //gilden
         protected List<Guild> mGuilds;
 
+        //welten
         protected List<World> mWorlds;
 
+        //accounts
         protected Account mAccount;
 
+        //items die geladen worden sind
         protected List<Item> mItems;
 
+        //images die geladen worden sind
         protected List<ItemImage> mImages;
 
+        //items die derzeit gerefreshed werden
         protected List<Int32> mRefreshingItems;
 
+        //images die derzeit gerefreshed werden
         protected List<String> mRefreshingImages;
 
+        //callback
         public event EventHandler dataSetChanged;
 
+        //datenbank connection
         protected OleDbConnection connection;
 
+        //datenbank command
         protected OleDbCommand command = new OleDbCommand();
 
+        //callback auslösen
         protected virtual void callDataChangeCallback(EventArgs e)
         {
             EventHandler handler = dataSetChanged;
@@ -59,12 +72,13 @@ namespace GW2AccountViewer
             }
         }
 
+        //callback arguments
         public class DataSetChangedEventArgs : EventArgs
         {
             public int Threshold { get; set; }
         }
 
-
+        //singleton
         private static readonly GW2AccounViewerApplication instance = new GW2AccounViewerApplication();
 
          static GW2AccounViewerApplication()
@@ -79,6 +93,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //application initialiseren
         public GW2AccounViewerApplication()
         {
             openConnection();
@@ -92,6 +107,7 @@ namespace GW2AccountViewer
             load();
         }
 
+        //datenbank verbindung öffnen
         public void openConnection(){
             string connetionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source= GW2AccountViewer.mdb";
             connection = new OleDbConnection(connetionString);
@@ -105,6 +121,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //datenbank verbindung schließen
         public void closeConnection()
         {
             try {
@@ -116,6 +133,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //character daten aus datenbank laden
         public void queryCharacters()
         {
             OleDbCommand command;
@@ -151,6 +169,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //welt daten aus datenbank laden
         public void queryWorlds()
         {
             OleDbCommand command;
@@ -186,6 +205,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //gilden daten aus datenbank laden
         public void queryGuilds()
         {
             OleDbCommand command;
@@ -221,6 +241,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //account daten aus datenbank laden
         public void queryAccount()
         {
             OleDbCommand command;
@@ -264,6 +285,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //character daten in datenbank schreiben
         public void writeCharacter(String name, String guildId)
         {
             try
@@ -284,6 +306,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //welt daten in datenbank schreiben
         public void writeWorld(Int32 id, String name, String population)
         {
             try
@@ -305,6 +328,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //gilden daten in datenbank schreiben
         public void writeGuild(String name, String guildId, string guildTag)
         {
             try
@@ -326,6 +350,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //account daten in datenbank schreiben
         public void writeAccount(String name, List<String> guilds)
         {
 
@@ -354,6 +379,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //tabellendaten löschen
         public void delete(String table)
         {
             try
@@ -370,17 +396,20 @@ namespace GW2AccountViewer
             }
         }
 
+        //api key speichern
         public void saveApiKey(String key)
         {
             Properties.Settings.Default.ApiKey = key;
             Properties.Settings.Default.Save();
         }
 
+        //api key laden
         public String loadApiKey()
         {
             return Properties.Settings.Default.ApiKey;
         }
 
+        //http post/get 
         public HttpWebRequest post(String url, AsyncCallback async)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -389,6 +418,7 @@ namespace GW2AccountViewer
             return request;
         }
 
+        //bild synchron von url laden
         public Image GetImageFromURL(string url)
         {
             HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -397,8 +427,10 @@ namespace GW2AccountViewer
             return Image.FromStream(stream);
         }
 
+        //item aktualisieren
         public void refreshItem(Int32 id)
         {
+            //item zur liste der aktualiserenden items hinzufügen damit kein item gleichzeitig geladen wird
             if (!mRefreshingItems.Contains(id))
             {
                 mRefreshingItems.Add(id);
@@ -409,8 +441,10 @@ namespace GW2AccountViewer
             }
         }
 
+        //bild von url aktualisieren
         public void refreshItemImage(String url)
         {
+            //image zur liste der aktualiserenden images hinzufügen damit kein image gleichzeitig geladen wird
             if (!mRefreshingImages.Contains(url))
             {
                 mRefreshingImages.Add(url);
@@ -421,21 +455,25 @@ namespace GW2AccountViewer
             }
         }
 
+        //Alle Charactere aktualisieren
         public void refreshCharacters()
         {
             post("https://api.guildwars2.com/v2/characters?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseCharacters));
         }
 
+        //Informationen zu einer bestimmten Gilde aktualisieren
         public void refreshGuild(String guildId)
         {
             post("https://api.guildwars2.com/v1/guild_details.json?guild_id=" + guildId, new AsyncCallback(parseGuild));
         }
 
+        //Accountdaten aktualisieren
         public void refreshAccount()
         {
             post("https://api.guildwars2.com/v2/account?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccount));
         }
 
+        //Weltenliste aktualisieren
         public void refreshWorlds()
         {
             post("https://api.guildwars2.com/v2/worlds?ids=all", new AsyncCallback(parseWorlds));
@@ -452,6 +490,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //image aus inputstream und in Objectliste hinzufügen
         void addImage(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -461,6 +500,7 @@ namespace GW2AccountViewer
             String responseUrl = response.ResponseUri.ToString();
             itemImage.url = responseUrl;
             mImages.Add(itemImage);
+            //image wieder aus der liste der refreshenden images entfernen da es gerefreshed wurde
             foreach (String url in mRefreshingImages)
             {
                 if (url == responseUrl)
@@ -475,6 +515,7 @@ namespace GW2AccountViewer
             save();
         }
 
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
         void parseCharacters(IAsyncResult result)
         {
                 WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -490,6 +531,7 @@ namespace GW2AccountViewer
                 save();
         }
 
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
         void parseWorlds(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -505,6 +547,7 @@ namespace GW2AccountViewer
             save();
         }
 
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
         void parseAccount(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -521,6 +564,7 @@ namespace GW2AccountViewer
             refreshGuilds();
         }
 
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
         void parseItem(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -532,6 +576,7 @@ namespace GW2AccountViewer
             response.Close();
             Item item = JsonConvert.DeserializeObject<Item>(responseFromServer);
             mItems.Add(item);
+            //item wieder aus der liste der refreshenden items entfernen da es gerefreshed wurde
             foreach (Int32 itemId in mRefreshingItems)
             {
                 if (itemId == item.Id)
@@ -545,6 +590,7 @@ namespace GW2AccountViewer
             save();
         }
 
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
         void parseGuild(IAsyncResult result)
         {
             WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
@@ -572,6 +618,7 @@ namespace GW2AccountViewer
             save();
         }
 
+        //speichert aller objecte aus der Singleton Application in die Datenbank
         public void save()
         {
             openConnection();
@@ -628,6 +675,7 @@ namespace GW2AccountViewer
             //closeConnection();
         }
 
+        //lädt die objecte aus der Datenbank in die Sigleton Application
         public void load()
         {
             openConnection();
