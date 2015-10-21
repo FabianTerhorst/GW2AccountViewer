@@ -33,6 +33,7 @@ namespace GW2AccountViewer
             buildUI();
         }
 
+        //callback methode
         public void dataSetChanged(object sender, EventArgs e)
         {
             try {
@@ -45,16 +46,20 @@ namespace GW2AccountViewer
             }
         }
 
+        //oberfläche nach callback neubauen
         public void buildUI()
         {
+            //nur charactere lsite leeren wenn character sich geändert haben oder exestieren
             if (application.getCharacters().Count != 0 && application.getCharacters().Count != accountCharacters.Items.Count)
             {
                 accountCharacters.Items.Clear();
             }
+            //nur gilden liste leeren wenn gilden vorhanden sind
             if (application.getGuilds().Count != 0)
             {
                 guilds.Items.Clear();
             }
+            //account welt namen anzeigen
             World accountWorld = application.getAccountWorld();
             if (accountWorld != null)
             {
@@ -63,6 +68,7 @@ namespace GW2AccountViewer
             {
                 guilds.Items.Clear();
             }
+            //charactere liste nur füllen wenn sich charactere geändert haben
             if (application.getCharacters().Count != accountCharacters.Items.Count)
             {
                 foreach (Character character in application.getCharacters())
@@ -70,6 +76,7 @@ namespace GW2AccountViewer
                     accountCharacters.Items.Add(character.Name);
                 }
             }
+            //account namen anzeigen wenn dieser vorhanden ist
             if (application.getAccount() != null)
             {
                 accountName.Text = application.getAccount().Name;
@@ -84,23 +91,30 @@ namespace GW2AccountViewer
                 Console.WriteLine("exception in buildUI");
                 Console.WriteLine(ex.Message);
             }
+
+            //nur default selektieren wenn keiner selektiert ist
             if (accountCharacters.SelectedIndex < 0)
             {
+                //nur wenn ein character vorhanden ist kann der erste default selektiert werden
                 if (accountCharacters.Items.Count > 0)
                 {
                     accountCharacters.SetSelected(0, true);
                 }
             }
+            //wenn ein character selektiert ist nach callback das equipment updaten
             if(selectedCharacter != null)
             {
                 updateSelectedCharacter();
             }
         }
 
+        //listbox selektion hat sich geändert
         private void character_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //checken ob selektion wirklich stattgefunden hat
             if (accountCharacters.SelectedIndex >= 0)
             {
+                //checken ob ein character mit diesen selektierten index exestieren kann
                 if (accountCharacters.SelectedIndex <= application.getCharacters().Count)
                 {
                     selectedCharacter = application.getCharacters()[accountCharacters.SelectedIndex];
@@ -110,32 +124,30 @@ namespace GW2AccountViewer
             }
         }
 
+        //nach character selektierung die oberfläche ändern 
         private void selectCharacter()
         {
             selectedCharacterName.Text = selectedCharacter.Name;
 
             if (selectedCharacter.Equipment != null)
             {
-                foreach (Object label in this.Controls)
+                //leere benutzeroberfläche von früheren character die labels
+                foreach (Label lb in this.Controls.OfType<Label>().ToArray())
                 {
-                    if (label is Label)
+                    if (lb.Name.Contains("EquipmentLabel"))
                     {
-                        if (((Label)label).Name.Contains("EquipmentLabel"))
-                        {
-                            this.Controls.Remove(((Label)label));
-                        }
+                        lb.Dispose();
+                        this.Controls.Remove(lb);
                     }
                 }
 
-                foreach (Object pictureBox in this.Controls)
+                //leere benutzeroberfläche von früheren character die picture boxen
+                foreach (PictureBox pb in this.Controls.OfType<PictureBox>().ToArray())
                 {
-                    if (pictureBox is PictureBox)
+                    if (pb.Name.Contains("ItemPicture"))
                     {
-                        PictureBox image = (PictureBox)pictureBox;
-                        if (image.Name.Contains("ItemPicture"))
-                        {
-                            this.Controls.Remove(image);
-                        }
+                        pb.Dispose();
+                        this.Controls.Remove(pb);
                     }
                 }
 
@@ -168,6 +180,7 @@ namespace GW2AccountViewer
             }
         }
 
+        //nach callback die selektierte characteroberfläche ändern
         private void updateSelectedCharacter()
         {
             foreach (Object pictureBox in this.Controls)
