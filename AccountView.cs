@@ -158,7 +158,7 @@ namespace GW2AccountViewer
                 {
                     Label label = new Label();
                     label.Location = new Point(200 + row, 100 + count);
-                    label.Size = new Size(100, 20);
+                    label.Size = new Size(150, 20);
                     label.Text = equipment.Slot;
                     label.Name = "EquipmentLabel" + equipment.Id;
                     this.Controls.Add(label);
