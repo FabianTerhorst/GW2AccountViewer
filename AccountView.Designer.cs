@@ -35,8 +35,8 @@
             this.wallet = new System.Windows.Forms.ListBox();
             this.accountCharacters = new System.Windows.Forms.ListBox();
             this.selectedCharacterName = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.backGroundPicture = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.backGroundPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // accountName
@@ -92,14 +92,14 @@
             this.selectedCharacterName.TabIndex = 8;
             this.selectedCharacterName.Text = "label1";
             // 
-            // pictureBox1
+            // backGroundPicture
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(281, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1009, 811);
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
+            this.backGroundPicture.Image = ((System.Drawing.Image)(resources.GetObject("backGroundPicture.Image")));
+            this.backGroundPicture.Location = new System.Drawing.Point(281, 12);
+            this.backGroundPicture.Name = "backGroundPicture";
+            this.backGroundPicture.Size = new System.Drawing.Size(1009, 811);
+            this.backGroundPicture.TabIndex = 9;
+            this.backGroundPicture.TabStop = false;
             // 
             // AccountView
             // 
@@ -107,7 +107,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1293, 806);
             this.Controls.Add(this.selectedCharacterName);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.backGroundPicture);
             this.Controls.Add(this.accountCharacters);
             this.Controls.Add(this.wallet);
             this.Controls.Add(this.guilds);
@@ -115,7 +115,7 @@
             this.Controls.Add(this.accountName);
             this.Name = "AccountView";
             this.Text = "AccountView";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.backGroundPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,6 +128,6 @@
         private System.Windows.Forms.ListBox wallet;
         private System.Windows.Forms.ListBox accountCharacters;
         private System.Windows.Forms.Label selectedCharacterName;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox backGroundPicture;
     }
 }

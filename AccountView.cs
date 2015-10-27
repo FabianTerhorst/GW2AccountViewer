@@ -21,10 +21,12 @@ namespace GW2AccountViewer
 
         GW2AccounViewerApplication application;
         Character selectedCharacter;
+        PictureBox background;
 
         public AccountView()
         {
             InitializeComponent();
+            background = backGroundPicture;
             application = GW2AccounViewerApplication.Instance;
             application.dataSetChanged += dataSetChanged;
             application.refreshCharacters();
@@ -104,7 +106,7 @@ namespace GW2AccountViewer
                 {
                     foreach (Currency currency in application.getCurrencies())
                     {
-                        wallet.Items.Add(currency.Name + " " + currency.Value);
+                        wallet.Items.Add(currency.Value + " " + currency.Name);
                     }
                 }
                 catch (Exception ex)
@@ -184,6 +186,7 @@ namespace GW2AccountViewer
                     label.Text = equipment.Slot;
                     label.Name = "EquipmentLabel" + equipment.Id;
                     label.BackColor = Color.Transparent;
+                    label.Parent = background;
                     this.Controls.Add(label);
                     label.BringToFront();
 
@@ -193,6 +196,7 @@ namespace GW2AccountViewer
                     picture.Text = equipment.Slot;
                     picture.BackColor = Color.Transparent;
                     picture.Name = "ItemPicture" + equipment.Id;
+                    picture.Parent = background;
                     this.Controls.Add(picture);
                     picture.BringToFront();
 
