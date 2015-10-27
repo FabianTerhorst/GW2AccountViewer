@@ -24,3 +24,6 @@ C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.AccountV
 C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.Form1.resources
 C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.Properties.Resources.resources
 C:\Users\fabia\Source\Repos\GW2AccountViewer\obj\Debug\GW2AccountViewer.csproj.GenerateResource.Cache
+C:\Users\fabia\Documents\GitHub\GW2AccountViewer\bin\Debug\GW2AccountViewer.exe.config
+C:\Users\fabia\Documents\GitHub\GW2AccountViewer\obj\Debug\GW2AccountViewer.exe
+C:\Users\fabia\Documents\GitHub\GW2AccountViewer\obj\Debug\GW2AccountViewer.pdb

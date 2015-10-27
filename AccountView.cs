@@ -157,14 +157,14 @@ namespace GW2AccountViewer
                 foreach (Equipment equipment in selectedCharacter.Equipment)
                 {
                     Label label = new Label();
-                    label.Location = new Point(200 + row, 100 + count);
+                    label.Location = new Point(350 + row, 100 + count);
                     label.Size = new Size(100, 20);
                     label.Text = equipment.Slot;
                     label.Name = "EquipmentLabel" + equipment.Id;
                     this.Controls.Add(label);
-                  
+
                     PictureBox picture = new PictureBox();
-                    picture.Location = new Point(300 + row, 100 + count);
+                    picture.Location = new Point(450 + row, 100 + count);
                     picture.Size = new Size(64, 64);
                     picture.Text = equipment.Slot;
                     picture.Name = "ItemPicture" + equipment.Id;

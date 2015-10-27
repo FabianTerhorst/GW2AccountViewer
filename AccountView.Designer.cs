@@ -73,7 +73,7 @@
             // accountCharacters
             // 
             this.accountCharacters.FormattingEnabled = true;
-            this.accountCharacters.Location = new System.Drawing.Point(1037, 8);
+            this.accountCharacters.Location = new System.Drawing.Point(155, 13);
             this.accountCharacters.Name = "accountCharacters";
             this.accountCharacters.Size = new System.Drawing.Size(120, 381);
             this.accountCharacters.TabIndex = 7;
@@ -82,7 +82,7 @@
             // selectedCharacterName
             // 
             this.selectedCharacterName.AutoSize = true;
-            this.selectedCharacterName.Location = new System.Drawing.Point(195, 30);
+            this.selectedCharacterName.Location = new System.Drawing.Point(301, 30);
             this.selectedCharacterName.Name = "selectedCharacterName";
             this.selectedCharacterName.Size = new System.Drawing.Size(35, 13);
             this.selectedCharacterName.TabIndex = 8;
