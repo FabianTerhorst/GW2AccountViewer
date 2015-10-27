@@ -38,6 +38,12 @@ namespace GW2AccountViewer
         //welten
         protected List<World> mWorlds;
 
+        //Währung
+        protected List<Currency> mCurrencies;
+
+        //Account Währung
+        protected List<Currency> mAccountCurrencies;
+
         //accounts
         protected Account mAccount;
 
@@ -104,6 +110,8 @@ namespace GW2AccountViewer
             mImages = new List<ItemImage>();
             mRefreshingImages = new List<String>();
             mRefreshingItems = new List<Int32>();
+            mCurrencies = new List<Currency>();
+            mAccountCurrencies = new List<Currency>();
             load();
         }
 
@@ -473,10 +481,22 @@ namespace GW2AccountViewer
             post("https://api.guildwars2.com/v2/account?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccount));
         }
 
+        //Accountdaten aktualisieren
+        public void refreshAccountWallet()
+        {
+            post("https://api.guildwars2.com/v2/account/wallet?page=0&page_size=20&access_token=AA3ECC99-4BFB-9E49-B0E2-F96897A262BCF867D226-4054-4318-850F-0B667FF4CDFB", new AsyncCallback(parseAccountWallet));
+        }
+
         //Weltenliste aktualisieren
         public void refreshWorlds()
         {
             post("https://api.guildwars2.com/v2/worlds?ids=all", new AsyncCallback(parseWorlds));
+        }
+
+        //Alle Charactere aktualisieren
+        public void refreshCurrencies()
+        {
+            post("https://api.guildwars2.com/v2/currencies?ids=all", new AsyncCallback(parseCurrencies));
         }
 
         public void refreshGuilds()
@@ -529,6 +549,46 @@ namespace GW2AccountViewer
                 DataSetChangedEventArgs args = new DataSetChangedEventArgs();
                 callDataChangeCallback(args);
                 save();
+        }
+
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
+        void parseCurrencies(IAsyncResult result)
+        {
+            WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            string responseFromServer = reader.ReadToEnd();
+            Console.WriteLine(responseFromServer);
+            reader.Close();
+            response.Close();
+            mCurrencies = JsonConvert.DeserializeObject<List<Currency>>(responseFromServer);
+            refreshAccountWallet();
+        }
+
+        //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
+        void parseAccountWallet(IAsyncResult result)
+        {
+            WebResponse response = ((WebRequest)result.AsyncState).EndGetResponse(result);
+            Stream dataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataStream);
+            string responseFromServer = reader.ReadToEnd();
+            Console.WriteLine(responseFromServer);
+            reader.Close();
+            response.Close();
+            List<CurrencyValue> currencyValues = JsonConvert.DeserializeObject<List<CurrencyValue>>(responseFromServer);
+            for (int i = 0; i < currencyValues.Count; i++)
+            {
+                foreach (Currency currency in mCurrencies)
+                {
+                    if(currency.Id == currencyValues[i].Id)
+                    {
+                        currency.Value = currencyValues[i].Value;
+                        mAccountCurrencies.Add(currency);
+                    }
+                }
+            }
+            DataSetChangedEventArgs args = new DataSetChangedEventArgs();
+            callDataChangeCallback(args);
         }
 
         //Json aus http request serialisieren und zur Objektliste hinzufügen und speichern
@@ -759,6 +819,11 @@ namespace GW2AccountViewer
 
             }
             return null;
+        }
+
+        public List<Currency> getCurrencies()
+        {
+            return mAccountCurrencies;
         }
 
     }

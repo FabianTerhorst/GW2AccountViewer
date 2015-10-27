@@ -58,6 +58,8 @@
       <DependentUpon>AccountView.cs</DependentUpon>
     </Compile>
     <Compile Include="Character.cs" />
+    <Compile Include="CurrencyValue.cs" />
+    <Compile Include="Currency.cs" />
     <Compile Include="Equipment.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

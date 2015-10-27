@@ -30,6 +30,7 @@ namespace GW2AccountViewer
             application.refreshCharacters();
             application.refreshAccount();
             application.refreshWorlds();
+            application.refreshCurrencies();
             buildUI();
         }
 
@@ -49,10 +50,15 @@ namespace GW2AccountViewer
         //oberfläche nach callback neubauen
         public void buildUI()
         {
-            //nur charactere lsite leeren wenn character sich geändert haben oder exestieren
+            //nur charactere liste leeren wenn character sich geändert haben oder exestieren
             if (application.getCharacters().Count != 0 && application.getCharacters().Count != accountCharacters.Items.Count)
             {
                 accountCharacters.Items.Clear();
+            }
+            //nur account wallet leeren wenn diese vorhanden sind
+            if(application.getCurrencies().Count != 0)
+            {
+                wallet.Items.Clear();
             }
             //nur gilden liste leeren wenn gilden vorhanden sind
             if (application.getGuilds().Count != 0)
@@ -90,6 +96,22 @@ namespace GW2AccountViewer
             {
                 Console.WriteLine("exception in buildUI");
                 Console.WriteLine(ex.Message);
+            }
+            //account wallet füllen wenn dieser vorhanden ist
+            if (application.getCurrencies() != null)
+            {
+                try
+                {
+                    foreach (Currency currency in application.getCurrencies())
+                    {
+                        wallet.Items.Add(currency.Name + " " + currency.Value);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("exception in buildUI");
+                    Console.WriteLine(ex.Message);
+                }
             }
 
             //nur default selektieren wenn keiner selektiert ist
