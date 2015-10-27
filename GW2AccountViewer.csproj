@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GW2-CSharp-master\GW2CSharp\GW2CSharp.csproj" />
+    <Content Include="hero_panel.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

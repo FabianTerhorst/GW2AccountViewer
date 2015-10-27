@@ -183,14 +183,18 @@ namespace GW2AccountViewer
                     label.Size = new Size(100, 20);
                     label.Text = equipment.Slot;
                     label.Name = "EquipmentLabel" + equipment.Id;
+                    label.BackColor = Color.Transparent;
                     this.Controls.Add(label);
+                    label.BringToFront();
 
                     PictureBox picture = new PictureBox();
                     picture.Location = new Point(450 + row, 100 + count);
                     picture.Size = new Size(64, 64);
                     picture.Text = equipment.Slot;
+                    picture.BackColor = Color.Transparent;
                     picture.Name = "ItemPicture" + equipment.Id;
                     this.Controls.Add(picture);
+                    picture.BringToFront();
 
                     row += 210;
                     if (row > 630)
@@ -210,24 +214,30 @@ namespace GW2AccountViewer
                 if (pictureBox is PictureBox)
                 {
                    PictureBox image = (PictureBox)pictureBox;
-                   Int32 itemId = Int32.Parse(image.Name.ToString().Replace("ItemPicture", ""));
-                   Item item = application.getItemById(itemId);
-                   if (item != null)
-                   {
-                       ItemImage itemImage = application.getItemImageByUrl(item.Icon);
-                       if (image.BackgroundImage == null)
-                       {
-                            if (itemImage != null)
-                            {
-                                image.BackgroundImage = itemImage.image;
-                            }else
-                            {
-                                application.refreshItemImage(item.Icon);
-                            }
-                       }
-                    }else
+                    if (image.Name != null && image.Name.ToString().Contains("ItemPicture"))
                     {
-                        application.refreshItem(itemId);
+                        Int32 itemId = Int32.Parse(image.Name.ToString().Replace("ItemPicture", ""));
+                        Item item = application.getItemById(itemId);
+                        if (item != null)
+                        {
+                            ItemImage itemImage = application.getItemImageByUrl(item.Icon);
+                            if (image.BackgroundImage == null)
+                            {
+                                if (itemImage != null)
+                                {
+                                    image.BackgroundImage = itemImage.image;
+                                    image.BringToFront();
+                                }
+                                else
+                                {
+                                    application.refreshItemImage(item.Icon);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            application.refreshItem(itemId);
+                        }
                     }
                 }
             }
